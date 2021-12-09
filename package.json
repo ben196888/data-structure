@@ -1,0 +1,16 @@
+{
+  "name": "data-structure",
+  "version": "1.0.0",
+  "description": "A collection of data structure practice in javascript and typescript",
+  "main": "index.js",
+  "repository": "git@github.com:ben196888/data-structure.git",
+  "author": "Ben Liu <ben196888@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "jest": "^27.4.3",
+    "ts-jest": "^27.1.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
+  }
+}
