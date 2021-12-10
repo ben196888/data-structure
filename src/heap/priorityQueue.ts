@@ -1,5 +1,6 @@
 interface IPriorityQueue<T> {
   enqueue(element: T): void;
+  dequeue(): T | null;
   peak(): T;
 }
 
@@ -25,6 +26,29 @@ export class PriorityQueue<T = any> implements IPriorityQueue<T> {
         break;
       }
     }
+  }
+  dequeue(): T | null {
+    if (this.elements.length === 1) {
+      return null;
+    }
+    const result = this.elements[1];
+    // move last element to top
+    this.elements[1] = this.elements.pop();
+    // 1 -> 2, 3
+    // 2 -> 4, 5
+    // 3 -> 6, 7
+    let i = 1;
+    while (i <= (this.elements.length >> 1)) {
+      let l = i << 1, r = (i << 1) + 1;
+      let next = this.compare(this.elements[l], this.elements[r]) > 0 ? l : r;
+      if (this.compare(this.elements[next], this.elements[i]) > 0) {
+        [this.elements[i], this.elements[next]] = [this.elements[next], this.elements[i]];
+        i = next;
+      } else {
+        break;
+      }
+    }
+    return result;
   }
   peak(): T {
     return this.elements[1];

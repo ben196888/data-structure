@@ -47,4 +47,25 @@ describe('PriorityQueue', () => {
       expect(pq.peak()).toBe(1);
     });
   });
+  describe('dequeue', () => {
+    test('empty queue', () => {
+      const pq = new PriorityQueue<number>((a, b) => a - b);
+      expect(pq.dequeue()).toBeNull();
+    });
+    test('Maximum heap 1,3,2,4', () => {
+      const pq = new PriorityQueue<number>((a, b) => a - b);
+      pq.enqueue(1);
+      expect(pq.peak()).toBe(1);
+      pq.enqueue(3);
+      expect(pq.peak()).toBe(3);
+      pq.enqueue(2);
+      expect(pq.peak()).toBe(3);
+      pq.enqueue(4);
+      expect(pq.peak()).toBe(4);
+      expect(pq.dequeue()).toBe(4);
+      expect(pq.dequeue()).toBe(3);
+      expect(pq.dequeue()).toBe(2);
+      expect(pq.dequeue()).toBe(1);
+    });
+  });
 });
