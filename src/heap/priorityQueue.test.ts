@@ -92,4 +92,24 @@ describe('PriorityQueue', () => {
       expect(pq.dequeue()).toBe(1);
     });
   });
+  describe('size', () => {
+    test('construct', () => {
+      const pq = new PriorityQueue<number>((a, b) => a - b, [2, 1, 4, 5, 3, 6]);
+      expect(pq.size).toBe(6);
+    });
+    test('enqueue and dequeue', () => {
+      const pq = new PriorityQueue<number>((a, b) => a - b);
+      expect(pq.size).toBe(0);
+      pq.enqueue(1);
+      expect(pq.size).toBe(1);
+      pq.enqueue(4);
+      expect(pq.size).toBe(2);
+      pq.dequeue();
+      expect(pq.size).toBe(1);
+      pq.enqueue(5);
+      expect(pq.size).toBe(2);
+      pq.enqueue(6);
+      expect(pq.size).toBe(3);
+    });
+  })
 });
