@@ -5,11 +5,31 @@ interface IPriorityQueue<T> {
 }
 
 export class PriorityQueue<T = any> implements IPriorityQueue<T> {
-  private elements: T[] = [null]; // elements[0] represent size
+  private elements: T[] = [null]; // elements[0] represent root
+  public readonly size: number;
   private readonly compare: (a: T, b: T) => number;
+  private heapify = (index: number): void => {
+    // leaf
+    if (index > ((this.elements.length - 1) >> 1)) {
+      return;
+    }
+    let l = index << 1, r = (index << 1) + 1;
+    let next = r > this.elements.length - 1 || this.compare(this.elements[l], this.elements[r]) > 0 ? l : r;
+    if (this.compare(this.elements[next], this.elements[index]) > 0) {
+      [this.elements[index], this.elements[next]] = [this.elements[next], this.elements[index]];
+      this.heapify(next);
+    }
+  };
   // compare return 1, 0, -1
-  constructor(compare: (a: T, b: T) => number) {
+  constructor(compare: (a: T, b: T) => number, list?: T[]) {
     this.compare = compare;
+    if (Array.isArray(list) && list.length > 0) {
+      this.elements = [null, ...list];
+      this.size = list.length;
+      for (let i = (this.elements.length - 1) >> 1; i > 0; i--) {
+        this.heapify(i);
+      }
+    }
   }
   enqueue(element: T): void {
     // append in the end of the list
@@ -28,7 +48,7 @@ export class PriorityQueue<T = any> implements IPriorityQueue<T> {
     }
   }
   dequeue(): T | null {
-    if (this.elements.length === 1) {
+    if (this.elements.length - 1 === 0) {
       return null;
     }
     const result = this.elements[1];
