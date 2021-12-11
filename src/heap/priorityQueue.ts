@@ -9,17 +9,18 @@ export class PriorityQueue<T = any> implements IPriorityQueue<T> {
   private elements: T[] = [null]; // elements[0] represent root
   private _size: number = 0;
   private readonly compare: (a: T, b: T) => number;
-  private heapify = (index: number): void => {
+  private swapWithChildren = (index: number): number => {
     // leaf
     if (index > (this._size >> 1)) {
-      return;
+      return -1;
     }
     let l = index << 1, r = (index << 1) + 1;
     let next = r > this._size || this.compare(this.elements[l], this.elements[r]) > 0 ? l : r;
     if (this.compare(this.elements[next], this.elements[index]) > 0) {
       [this.elements[index], this.elements[next]] = [this.elements[next], this.elements[index]];
-      this.heapify(next);
+      return next;
     }
+    return -1;
   };
   // compare return 1, 0, -1
   constructor(compare: (a: T, b: T) => number, list?: T[]) {
@@ -27,8 +28,12 @@ export class PriorityQueue<T = any> implements IPriorityQueue<T> {
     if (Array.isArray(list) && list.length > 0) {
       this.elements = [null, ...list];
       this._size = list.length;
+      // heapify
       for (let i = this._size >> 1; i > 0; i--) {
-        this.heapify(i);
+        let curr = i;
+        while (curr > 0) {
+          curr = this.swapWithChildren(curr);
+        }
       }
     }
   }
@@ -62,12 +67,8 @@ export class PriorityQueue<T = any> implements IPriorityQueue<T> {
     // 3 -> 6, 7
     let i = 1;
     while (i <= (this._size >> 1)) {
-      let l = i << 1, r = (i << 1) + 1;
-      let next = r > this._size || this.compare(this.elements[l], this.elements[r]) > 0 ? l : r;
-      if (this.compare(this.elements[next], this.elements[i]) > 0) {
-        [this.elements[i], this.elements[next]] = [this.elements[next], this.elements[i]];
-        i = next;
-      } else {
+      i = this.swapWithChildren(i);
+      if (i < 0) {
         break;
       }
     }
