@@ -67,6 +67,16 @@ describe('PriorityQueue', () => {
       expect(pq.dequeue()).toBe(2);
       expect(pq.dequeue()).toBe(1);
     });
+    test('Minimum heap 1,3,2,4,5,6,7', () => {
+      const pq = new PriorityQueue<number>((a, b) => b - a, [1, 3, 2, 4, 5, 6, 7]);
+      expect(pq.dequeue()).toBe(1);
+      expect(pq.dequeue()).toBe(2);
+      expect(pq.dequeue()).toBe(3);
+      expect(pq.dequeue()).toBe(4);
+      expect(pq.dequeue()).toBe(5);
+      expect(pq.dequeue()).toBe(6);
+      expect(pq.dequeue()).toBe(7);
+    });
   });
 
   describe('construct', () => {

@@ -63,7 +63,7 @@ export class PriorityQueue<T = any> implements IPriorityQueue<T> {
     let i = 1;
     while (i <= (this._size >> 1)) {
       let l = i << 1, r = (i << 1) + 1;
-      let next = this.compare(this.elements[l], this.elements[r]) > 0 ? l : r;
+      let next = r > this._size || this.compare(this.elements[l], this.elements[r]) > 0 ? l : r;
       if (this.compare(this.elements[next], this.elements[i]) > 0) {
         [this.elements[i], this.elements[next]] = [this.elements[next], this.elements[i]];
         i = next;
